@@ -1,19 +1,13 @@
 trigger:
 - main
-   
-pool: Dockeragent
+
+pool:
+  vmImage: 'ubuntu-latest' 
 
 variables:
   imageName: 'pipelines-javascript-docker'
-  DOCKER_BUILDKIT: 1
-    
+
 steps:
-# Docker CLI installer v0
-# Install Docker CLI on agent machine.
-- task: DockerInstaller@0
-  inputs:
-    dockerVersion: '17.09.0-ce' # string. Required. Docker Version. Default: 17.09.0-ce.
-    #releaseType: 'stable' # 'stable' | 'edge' | 'test' | 'nightly'. Release type. Default: stable.
 - task: Docker@2
   displayName: Build an image
   inputs:
