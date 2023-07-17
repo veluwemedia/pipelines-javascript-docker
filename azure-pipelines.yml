@@ -9,7 +9,6 @@ resources:
 - repo: self
 
 variables:
-  appName: 'gereformeerdebond-test-app'
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'fb56cf57-62cf-4f30-b905-407c429eb911'
   imageRepository: 'veluwemediapipelinesjavascriptdocker'
@@ -45,5 +44,5 @@ stages:
       displayName: 'Azure Web App on Container Deploy'
       inputs:
         azureSubscription: 'Microsoft Azure Sponsorship'
-        appName: $(appName)
+        appName: 'gereformeerdebond-test-app'
         imageName: $(containerRegistry)/$(imageRepository):$(tag)
