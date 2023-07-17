@@ -37,12 +37,7 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-
-
-    ## Add the below snippet at the end of your pipeline
     - task: AzureWebAppContainer@1
-      displayName: 'Azure Web App on Container Deploy'
       inputs:
-        azureSubscription: 'Microsoft Azure Sponsorship'
+        azureSubscription: 'Microsoft Azure Sponsorship (bbec3cae-5099-4197-91d4-b6963446e8d9)'
         appName: 'gereformeerdebond-test-app'
-        imageName: $(containerRegistry)/$(imageRepository):$(tag)
