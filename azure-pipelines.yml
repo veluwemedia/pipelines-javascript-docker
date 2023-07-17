@@ -9,8 +9,8 @@ resources:
 - repo: self
 
 variables:
-  azureSubscription: Microsoft Azure Sponsorship
-  appName: gereformeerdebond-test-app
+  azureSubscription: 'Microsoft Azure Sponsorship'
+  appName: 'gereformeerdebond-test-app'
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '775c0a89-414f-44ae-a49b-63f5fa950e14'
   imageRepository: 'veluwemediapipelinesjavascriptdocker'
