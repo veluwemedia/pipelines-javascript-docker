@@ -41,3 +41,4 @@ stages:
       inputs:
         azureSubscription: 'Microsoft Azure Sponsorship (bbec3cae-5099-4197-91d4-b6963446e8d9)'
         appName: 'gereformeerdebond-test-app'
+        imageName: $(containerRegistry)/$(imageRepository):$(tag)
