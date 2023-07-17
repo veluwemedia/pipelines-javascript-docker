@@ -9,7 +9,6 @@ resources:
 - repo: self
 
 variables:
-  azureSubscription: 'Microsoft Azure Sponsorship'
   appName: 'gereformeerdebond-test-app'
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'fb56cf57-62cf-4f30-b905-407c429eb911'
@@ -45,6 +44,6 @@ stages:
     - task: AzureWebAppContainer@1
       displayName: 'Azure Web App on Container Deploy'
       inputs:
-        azureSubscription: $(azureSubscription)
+        azureSubscription: 'Microsoft Azure Sponsorship'
         appName: $(appName)
         imageName: $(containerRegistry)/$(imageRepository):$(tag)
