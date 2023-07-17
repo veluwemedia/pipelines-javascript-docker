@@ -9,6 +9,8 @@ resources:
 - repo: self
 
 variables:
+  azureSubscription: 'Microsoft Azure Sponsorship'
+  appName: 'gereformeerdebond-test-app'
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'fb56cf57-62cf-4f30-b905-407c429eb911'
   imageRepository: 'veluwemediapipelinesjavascriptdocker'
@@ -37,3 +39,12 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+
+
+    ## Add the below snippet at the end of your pipeline
+    - task: AzureWebAppContainer@1
+      displayName: 'Azure Web App on Container Deploy'
+      inputs:
+        azureSubscription: $(azureSubscription)
+        appName: $(appName)
+        imageName: $(containerRegistry)/$(imageRepository):$(tag)
