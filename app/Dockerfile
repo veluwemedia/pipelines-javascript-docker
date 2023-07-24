@@ -1,15 +1,24 @@
-# syntax=docker/dockerfile:1
 
-FROM node:12.18.1
-ENV NODE_ENV=production
+FROM tiangolo/uwsgi-nginx-flask:python3.6
 
-WORKDIR /app
+RUN mkdir /code
+WORKDIR /code
+ADD requirements.txt /code/
+RUN pip install -r requirements.txt --no-cache-dir
+ADD . /code/
 
-COPY ["package.json", "package-lock.json*", "./"]
+# ssh
+ENV SSH_PASSWD "root:Docker!"
+RUN apt-get update \
+        && apt-get install -y --no-install-recommends dialog \
+        && apt-get update \
+	&& apt-get install -y --no-install-recommends openssh-server \
+	&& echo "$SSH_PASSWD" | chpasswd 
 
-RUN npm install --production
-
-COPY . .
-
-EXPOSE 8080
-CMD [ "node", "server.js" ]
+COPY sshd_config /etc/ssh/
+COPY init.sh /usr/local/bin/
+	
+RUN chmod u+x /usr/local/bin/init.sh
+EXPOSE 8000 2222
+#CMD ["python", "/code/manage.py", "runserver", "0.0.0.0:8000"]
+ENTRYPOINT ["init.sh"]
