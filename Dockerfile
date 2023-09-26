@@ -54,8 +54,6 @@ RUN a2enmod rewrite expires
 
 VOLUME /var/www/html
 
-ENV WORDPRESS_VERSION 4.9.5
-
 COPY wordpress /usr/src/wordpress
 
 RUN chown -R www-data:www-data /usr/src/wordpress

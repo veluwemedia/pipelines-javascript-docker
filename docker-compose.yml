@@ -1,0 +1,52 @@
+version: "3"
+services:
+
+  app:
+    hostname: gereformeerdebond.localhost
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./wordpress:/var/www/html
+    links:
+      - database
+    environment:
+      - "DB_PORT=3306"
+      - "DB_HOST=database"
+      - "PHP_IDE_CONFIG=serverName=xdocker"
+      - "XDEBUG_CONFIG=remote_host=192.168.2.3"
+      - "WORDPRESS_DB_HOST=${DB_HOST_NAME}"
+      - "WORDPRESS_DB_USER=${DB_USER}"
+      - "WORDPRESS_DB_PASSWORD=${DB_PASSWORD}"
+      - "WORDPRESS_DB_NAME=${DB_NAME}"
+      - "WORDPRESS_DEBUG=1"
+    ports:
+    - "8080:80"
+
+  database-test:
+    image: mariadb:10.5.8
+    volumes:
+      - db_data-test:/var/lib/mysql
+    environment:
+      - "MYSQL_ROOT_PASSWORD=secret"
+      - "MYSQL_DATABASE=wordpress-test"
+      - "MYSQL_USER=wordpress-test"
+      - "MYSQL_PASSWORD=wordpress-test"
+    ports:
+      - "33063:3306"
+
+  database:
+    image: mariadb:10.5.8
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      - "MYSQL_ROOT_PASSWORD=secret"
+      - "MYSQL_DATABASE=${DB_NAME}"
+      - "MYSQL_USER=${DB_USER}"
+      - "MYSQL_PASSWORD=${DB_PASSWORD}"
+    ports:
+      - "33062:3306"
+
+volumes:
+  db_data:
+  db_data-test:

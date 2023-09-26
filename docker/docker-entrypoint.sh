@@ -131,19 +131,7 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 		fi
 	done
 
-	# linking backwards-compatibility
-	if [ -n "${!MYSQL_ENV_MYSQL_*}" ]; then
-		haveConfig=1
-		# host defaults to "mysql" below if unspecified
-		: "${WORDPRESS_DB_USER:=${MYSQL_ENV_MYSQL_USER:-root}}"
-		if [ "$WORDPRESS_DB_USER" = 'root' ]; then
-			: "${WORDPRESS_DB_PASSWORD:=${MYSQL_ENV_MYSQL_ROOT_PASSWORD:-}}"
-		else
-			: "${WORDPRESS_DB_PASSWORD:=${MYSQL_ENV_MYSQL_PASSWORD:-}}"
-		fi
-		: "${WORDPRESS_DB_NAME:=${MYSQL_ENV_MYSQL_DATABASE:-}}"
-	fi
-
+  echo "Create config file if we have environment-supplied configuration values"
 	# only touch "wp-config.php" if we have environment-supplied configuration values
 	if [ "$haveConfig" ]; then
 		: "${WORDPRESS_DB_HOST:=mysql}"
@@ -226,9 +214,10 @@ EOPHP
 			set_config 'WP_DEBUG' 1 boolean
 		fi
 
+    echo "Config created"
 	fi
 
-	# now that we're definitely done writing configuration, let's clear out the relevant envrionment variables (so that stray "phpinfo()" calls don't leak secrets from our code)
+	# now that we're definitely done writing configuration, let's clear out the relevant environment variables (so that stray "phpinfo()" calls don't leak secrets from our code)
 	for e in "${envs[@]}"; do
 		unset "$e"
 	done
